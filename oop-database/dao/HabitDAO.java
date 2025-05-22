@@ -1,4 +1,5 @@
 package dao;
+import db.DBConnection;
 import db.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import db.DatabaseConnection;
 public class HabitDAO {
     public void addHabit(Habit habit) {
         String sql = "INSERT INTO habits (user_id, name, notes) VALUES (?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, habit.getUserId());
             stmt.setString(2, habit.getName());
@@ -21,7 +22,7 @@ public class HabitDAO {
     public List<Habit> getHabitsByUserId(int userId) {
         List<Habit> habits = new ArrayList<>();
         String sql = "SELECT * FROM habits WHERE user_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();

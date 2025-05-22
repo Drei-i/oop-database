@@ -1,13 +1,14 @@
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
+import db.DBConnection;
 
 
 public class HabitProgressDAO {
     public void markHabitProgress(int habitId, Date date, boolean completed) {
         String sql = "INSERT INTO habit_progress (habit_id, date, completed) VALUES (?, ?, ?) " +
                      "ON DUPLICATE KEY UPDATE completed = VALUES(completed)";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, habitId);
             stmt.setDate(2, new java.sql.Date(date.getTime()));
@@ -21,7 +22,7 @@ public class HabitProgressDAO {
     public List<HabitProgress> getProgressForHabit(int habitId) {
         List<HabitProgress> progressList = new ArrayList<>();
         String sql = "SELECT * FROM habit_progress WHERE habit_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, habitId);
             ResultSet rs = stmt.executeQuery();

@@ -1,13 +1,13 @@
 package dao;
 
 import java.sql.*;
-import db.DatabaseConnection;
+import db.DBConnection;
 import model.User;
 
 public class UserDAO {
     public void addUser(User user) {
         String sql = "INSERT INTO users (name, email) VALUES (?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getEmail());
@@ -19,7 +19,7 @@ public class UserDAO {
 
     public User getUserById(int userId) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();

@@ -1,4 +1,5 @@
 import java.sql.*;
+import db.DBConnection;
 
 public class StreakDAO {
     public void updateStreak(int userId, int current, int longest, Date lastUpdated) {
@@ -10,7 +11,7 @@ public class StreakDAO {
                 longest_streak = VALUES(longest_streak),
                 last_updated = VALUES(last_updated)
         """;
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             stmt.setInt(2, current);
@@ -24,7 +25,7 @@ public class StreakDAO {
 
     public Streak getStreak(int userId) {
         String sql = "SELECT * FROM streaks WHERE user_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
