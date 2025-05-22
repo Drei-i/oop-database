@@ -1,12 +1,14 @@
+package dao;
+import db.DBConnection;
 import java.sql.*;
 import java.util.*;
 
 public class HabitScheduleDAO {
-    public void setSchedule(int habitId, List<String> days) {
+    public void setSchedule(int habitId, List<String> days) throws Exception {
         String deleteSQL = "DELETE FROM habit_schedule WHERE habit_id = ?";
         String insertSQL = "INSERT INTO habit_schedule (habit_id, day_of_week) VALUES (?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement deleteStmt = conn.prepareStatement(deleteSQL);
              PreparedStatement insertStmt = conn.prepareStatement(insertSQL)) {
             
@@ -26,10 +28,10 @@ public class HabitScheduleDAO {
         }
     }
 
-    public List<String> getSchedule(int habitId) {
+    public List<String> getSchedule(int habitId) throws Exception {
         List<String> schedule = new ArrayList<>();
         String sql = "SELECT day_of_week FROM habit_schedule WHERE habit_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, habitId);
             ResultSet rs = stmt.executeQuery();

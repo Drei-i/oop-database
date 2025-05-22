@@ -1,5 +1,7 @@
-import java.sql.*;
+package dao;
 import db.DBConnection;
+import java.sql.*;
+import model.Streak;
 
 public class StreakDAO {
     public void updateStreak(int userId, int current, int longest, Date lastUpdated) {
@@ -18,7 +20,7 @@ public class StreakDAO {
             stmt.setInt(3, longest);
             stmt.setDate(4, new java.sql.Date(lastUpdated.getTime()));
             stmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -37,7 +39,7 @@ public class StreakDAO {
                 streak.setLastUpdated(rs.getDate("last_updated"));
                 return streak;
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
