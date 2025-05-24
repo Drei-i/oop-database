@@ -15,6 +15,16 @@ CREATE TABLE habits (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+CREATE TABLE habit_completions (
+    completion_id INT PRIMARY KEY AUTO_INCREMENT,
+    habit_id INT NOT NULL,
+    user_id INT NOT NULL,
+    date_completed DATE NOT NULL,
+    FOREIGN KEY (habit_id) REFERENCES habits(habit_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
 CREATE TABLE habit_schedule (
     id INT AUTO_INCREMENT PRIMARY KEY,
     habit_id INT,
