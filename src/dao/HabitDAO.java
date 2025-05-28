@@ -4,19 +4,31 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import model.Habit;
+
 public class HabitDAO {
-    public void addHabit(Habit habit) throws Exception {
+
+    public int addHabit(Habit habit) throws Exception {
         String sql = "INSERT INTO habits (user_id, name, notes) VALUES (?, ?, ?)";
+        int habitId = -1;
+
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, habit.getUserId());
             stmt.setString(2, habit.getName());
             stmt.setString(3, habit.getNotes());
             stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                habitId = rs.getInt(1);
+                habit.setHabitId(habitId); // optional: update the Habit object itself
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+
+        return habitId;
+    }   
 
     public List<Habit> getHabitsByUserId(int userId) throws Exception {
         List<Habit> habits = new ArrayList<>();
@@ -96,4 +108,14 @@ public class HabitDAO {
             stmt.executeUpdate();
         }
     }
+
+    public void addHabitSchedule(int habitId, String dayOfWeek) throws Exception {
+        String sql = "INSERT INTO habit_schedule (habit_id, day_of_week) VALUES (?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, habitId);
+            stmt.setString(2, dayOfWeek);
+            stmt.executeUpdate();
+        }
+    }    
 }
