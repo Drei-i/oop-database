@@ -147,21 +147,28 @@ public class Dashboard extends JFrame {
         try {
             List<Habit> habits = habitDAO.getAllHabits();
             for (Habit habit : habits) {
-                JPanel habitRowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                // Row panel using BorderLayout to align components
+                JPanel habitRowPanel = new JPanel(new BorderLayout());
+                habitRowPanel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5)); // small vertical spacing
 
+                // Habit checkbox
                 JCheckBox cb = new JCheckBox(habit.getName());
-                habitRowPanel.add(cb);
+                habitRowPanel.add(cb, BorderLayout.WEST);
 
-                JButton deleteButton = new JButton("Delete");
+                // Delete button
+                JButton deleteButton = new JButton("🗑️");
+                deleteButton.setPreferredSize(new Dimension(50, 25));
+
                 deleteButton.addActionListener(e -> {
                     int confirm = JOptionPane.showConfirmDialog(this, "Delete this habit?", "Confirm",
                             JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         deleteHabit(habit.getHabitId());
-                        loadHabits(); // Refresh habit list
+                        loadHabits();
                     }
                 });
-                habitRowPanel.add(deleteButton);
+
+                habitRowPanel.add(deleteButton, BorderLayout.EAST);
 
                 habitsPanel.add(habitRowPanel);
             }
