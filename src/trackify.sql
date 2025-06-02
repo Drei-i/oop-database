@@ -29,8 +29,9 @@ CREATE TABLE habit_schedule (
     id INT AUTO_INCREMENT PRIMARY KEY,
     habit_id INT,
     day_of_week ENUM('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'),
-    FOREIGN KEY (habit_id) REFERENCES habits(habit_id)
+    FOREIGN KEY (habit_id) REFERENCES habits(habit_id) ON DELETE CASCADE
 );
+
 CREATE TABLE habit_progress (
     progress_id INT AUTO_INCREMENT PRIMARY KEY,
     habit_id INT,
