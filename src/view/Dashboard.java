@@ -78,7 +78,7 @@ public class Dashboard extends JFrame {
 
         // Action for button to open AddHabit window
         addHabitButton.addActionListener(e -> {
-            AddHabit addHabitWindow = new AddHabit(userId, this);
+            AddHabit addHabitWindow = new AddHabit();
             addHabitWindow.setVisible(true);
         });
 
