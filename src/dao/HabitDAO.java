@@ -7,12 +7,9 @@ import model.Habit;
 
 public class HabitDAO {
 
-    public int addHabit(Habit habit) throws Exception {
+    public int addHabit(Connection conn, Habit habit) {
         String sql = "INSERT INTO habits (user_id, name, notes) VALUES (?, ?, ?)";
-        int habitId = -1;
-
-        try (Connection conn = DBConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, habit.getUserId());
             stmt.setString(2, habit.getName());
             stmt.setString(3, habit.getNotes());
@@ -20,15 +17,20 @@ public class HabitDAO {
 
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
-                habitId = rs.getInt(1);
-                habit.setHabitId(habitId); // optional: update the Habit object itself
+                return rs.getInt(1);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return -1;
+    }    
 
-        return habitId;
-    }   
+    // Original method using internal connection (optional)
+    public int addHabit(Habit habit) throws SQLException {
+        try (Connection conn = DBConnection.getConnection()) {
+            return addHabit(conn, habit);
+        }
+    }
 
     public List<Habit> getHabitsByUserId(int userId) throws Exception {
         List<Habit> habits = new ArrayList<>();
@@ -109,13 +111,19 @@ public class HabitDAO {
         }
     }
 
-    public void addHabitSchedule(int habitId, String dayOfWeek) throws Exception {
+    public void addHabitSchedule(Connection conn, int habitId, String dayOfWeek) throws SQLException {
         String sql = "INSERT INTO habit_schedule (habit_id, day_of_week) VALUES (?, ?)";
-        try (Connection conn = DBConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, habitId);
             stmt.setString(2, dayOfWeek);
             stmt.executeUpdate();
         }
-    }    
+    }
+
+    // Optional overload
+    public void addHabitSchedule(int habitId, String dayOfWeek) throws SQLException {
+        try (Connection conn = DBConnection.getConnection()) {
+            addHabitSchedule(conn, habitId, dayOfWeek);
+        }
+    }
 }

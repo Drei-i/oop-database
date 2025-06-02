@@ -89,7 +89,7 @@ public class Dashboard extends JFrame {
 
         // Scroll pane for habits list
         JScrollPane habitsScrollPane = new JScrollPane(habitsPanel);
-        habitsScrollPane.setPreferredSize(new Dimension(650, 560)); // height less than frame for header space
+        habitsScrollPane.setPreferredSize(new Dimension(350, 560)); // height less than frame for header space
 
         // Container panel for header + scroll pane (habits list)
         JPanel habitsContainerPanel = new JPanel(new BorderLayout());
@@ -101,9 +101,9 @@ public class Dashboard extends JFrame {
         // ======= RIGHT PANEL =======
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
-        rightPanel.setPreferredSize(new Dimension(300, 0));
-        rightPanel.setMinimumSize(new Dimension(300, 0));
-        rightPanel.setMaximumSize(new Dimension(300, Integer.MAX_VALUE));
+        rightPanel.setPreferredSize(new Dimension(600, 0));
+        rightPanel.setMinimumSize(new Dimension(600, 0));
+        rightPanel.setMaximumSize(new Dimension(600, Integer.MAX_VALUE));
 
         // Top right: Streaks
         streaksPanel = new JPanel();

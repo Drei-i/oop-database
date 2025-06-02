@@ -1,12 +1,12 @@
 package view;
 
 import dao.HabitDAO;
-import model.Habit;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import javax.swing.*;
+import model.Habit;
 
 public class AddHabit extends JFrame {
   private JTextField habitNameField;
@@ -16,8 +16,9 @@ public class AddHabit extends JFrame {
 
   public AddHabit() {
     setTitle("Add New Habit");
-    setSize(400, 350);
+    setSize(700, 550);
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    setLocationRelativeTo(null);
     setLayout(new GridLayout(6, 1));
 
     // Habit Name
@@ -58,10 +59,10 @@ public class AddHabit extends JFrame {
   }
 
   private void saveHabit() {
+    Connection conn = null;
     try {
       String name = habitNameField.getText();
       String notes = notesField.getText();
-
       int userId = 1; // Replace with actual user_id if needed
 
       Habit habit = new Habit();
@@ -70,23 +71,41 @@ public class AddHabit extends JFrame {
       habit.setNotes(notes);
 
       HabitDAO habitDAO = new HabitDAO();
-      int habitId = habitDAO.addHabit(habit);
+      conn = db.DBConnection.getConnection();
+      conn.setAutoCommit(false); // Start transaction
+
+      int habitId = habitDAO.addHabit(conn, habit);
 
       if (habitId != -1) {
         for (int i = 0; i < dayButtons.length; i++) {
           if (dayButtons[i].isSelected()) {
-            habitDAO.addHabitSchedule(habitId, dayButtons[i].getText());
+            habitDAO.addHabitSchedule(conn, habitId, dayButtons[i].getText());
           }
         }
 
+        conn.commit(); // All good, commit transaction
         JOptionPane.showMessageDialog(this, "Habit saved successfully!");
         dispose();
       } else {
+        conn.rollback();
         JOptionPane.showMessageDialog(this, "Failed to save habit.");
       }
     } catch (Exception ex) {
       ex.printStackTrace();
+      try {
+        if (conn != null)
+          conn.rollback();
+      } catch (Exception rollbackEx) {
+        rollbackEx.printStackTrace();
+      }
       JOptionPane.showMessageDialog(this, "Error saving habit.");
+    } finally {
+      try {
+        if (conn != null)
+          conn.close();
+      } catch (Exception closeEx) {
+        closeEx.printStackTrace();
+      }
     }
   }
 
