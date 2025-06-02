@@ -25,6 +25,8 @@ public class AddHabit extends JFrame {
     setLocationRelativeTo(null);
     setLayout(new GridLayout(6, 1));
 
+    getContentPane().setBackground(new Color(237, 230, 214));
+
     // Habit Name
     add(new JLabel("Habit Name:"));
     habitNameField = new JTextField();
@@ -49,6 +51,7 @@ public class AddHabit extends JFrame {
 
     // Save button
     saveButton = new JButton("Save Habit");
+    saveButton.setBackground(new Color(168, 152, 136));
     add(saveButton);
 
     // Save button action

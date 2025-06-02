@@ -43,6 +43,8 @@ public class Dashboard extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        getContentPane().setBackground(new Color(237, 230, 214));
+
         // Layout for whole frame
         setLayout(new BorderLayout());
 
@@ -50,6 +52,8 @@ public class Dashboard extends JFrame {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        topPanel.setBackground(new Color(237, 230, 214));
 
         // Logo at top center
         ImageIcon logoIcon = new ImageIcon("src/view/assets/Logo.png");
@@ -78,6 +82,7 @@ public class Dashboard extends JFrame {
         // Panel for header: title and button
         JPanel habitsHeaderPanel = new JPanel(new BorderLayout());
         habitsHeaderPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        habitsHeaderPanel.setBackground(new Color(237, 230, 214));
 
         JLabel habitsTitleLabel = new JLabel("Habits to Track");
         habitsTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
@@ -107,6 +112,8 @@ public class Dashboard extends JFrame {
         habitsContainerPanel.add(habitsHeaderPanel, BorderLayout.NORTH);
         habitsContainerPanel.add(habitsScrollPane, BorderLayout.CENTER);
         habitsContainerPanel.setPreferredSize(new Dimension(500, 600));
+        
+        habitsContainerPanel.setBackground(new Color(237, 230, 214));
 
         // ======= RIGHT PANEL =======
         JPanel rightPanel = new JPanel();
@@ -114,12 +121,15 @@ public class Dashboard extends JFrame {
         rightPanel.setPreferredSize(new Dimension(500, 0));
         rightPanel.setMinimumSize(new Dimension(500, 0));
         rightPanel.setMaximumSize(new Dimension(500, Integer.MAX_VALUE));
+        
+        rightPanel.setBackground(new Color(237, 230, 214));
 
         // Top right: Streaks
         streaksPanel = new JPanel();
         streaksPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
         streaksPanel.setBorder(BorderFactory.createTitledBorder("Streaks"));
         streaksPanel.setPreferredSize(new Dimension(500, 120));
+        streaksPanel.setBackground(new Color(237, 230, 214));
         loadStreaks();
 
         rightPanel.add(streaksPanel, BorderLayout.NORTH);
@@ -134,6 +144,8 @@ public class Dashboard extends JFrame {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
         mainPanel.add(habitsContainerPanel); // add container with header and scroll pane
         mainPanel.add(rightPanel);
+
+        mainPanel.setBackground(new Color(237, 230, 214));
 
         add(mainPanel, BorderLayout.CENTER);
 
@@ -153,6 +165,8 @@ public class Dashboard extends JFrame {
                 habitRowPanel.setMaximumSize(new Dimension(350, 35));
                 habitRowPanel.setPreferredSize(new Dimension(350, 35));
                 habitRowPanel.setMinimumSize(new Dimension(350, 35));
+                
+                habitRowPanel.setBackground(new Color(237, 230, 214));
 
                 JCheckBox cb = new JCheckBox(habit.getName());
                 cb.setPreferredSize(new Dimension(250, 25));
@@ -196,6 +210,8 @@ public class Dashboard extends JFrame {
 
         JPanel currentPanel = new JPanel();
         currentPanel.setLayout(new BoxLayout(currentPanel, BoxLayout.Y_AXIS));
+        currentPanel.setBackground(new Color(255, 247, 237));
+
         JLabel currentLabel = new JLabel("Current Streak");
         currentLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         JLabel currentValue = new JLabel(String.valueOf(current));
@@ -205,6 +221,8 @@ public class Dashboard extends JFrame {
 
         JPanel longestPanel = new JPanel();
         longestPanel.setLayout(new BoxLayout(longestPanel, BoxLayout.Y_AXIS));
+        longestPanel.setBackground(new Color(255, 247, 237));
+
         JLabel longestLabel = new JLabel("Longest Streak");
         longestLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         JLabel longestValue = new JLabel(String.valueOf(longest));
