@@ -25,6 +25,16 @@ public class Dashboard extends JFrame {
     private JPanel graphPanel;
     private JButton addHabitButton;  // new button for adding habit
 
+    public void deleteHabit(int habitId) {
+        try {
+            HabitDAO habitDAO = new HabitDAO();
+            habitDAO.deleteHabit(habitId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to delete habit.");
+        }
+    }    
+
     public Dashboard(int userId) {
         this.userId = userId;
 
@@ -135,17 +145,32 @@ public class Dashboard extends JFrame {
         habitsPanel.removeAll();
         HabitDAO habitDAO = new HabitDAO();
         try {
-            List<Habit> habits = habitDAO.getAllHabits(); // all habits, no filter
+            List<Habit> habits = habitDAO.getAllHabits();
             for (Habit habit : habits) {
+                JPanel habitRowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
                 JCheckBox cb = new JCheckBox(habit.getName());
-                habitsPanel.add(cb);
+                habitRowPanel.add(cb);
+
+                JButton deleteButton = new JButton("Delete");
+                deleteButton.addActionListener(e -> {
+                    int confirm = JOptionPane.showConfirmDialog(this, "Delete this habit?", "Confirm",
+                            JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        deleteHabit(habit.getHabitId());
+                        loadHabits(); // Refresh habit list
+                    }
+                });
+                habitRowPanel.add(deleteButton);
+
+                habitsPanel.add(habitRowPanel);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         habitsPanel.revalidate();
         habitsPanel.repaint();
-    }
+    }    
 
     // Load streaks from DB and display current and longest streaks side by side
     private void loadStreaks() {

@@ -96,13 +96,12 @@ public class HabitDAO {
     }
 
     public void deleteHabit(int habitId) throws Exception {
+        Connection conn = Database.getConnection();
         String sql = "DELETE FROM habits WHERE habit_id = ?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, habitId);
-            stmt.executeUpdate();
-        }
-    }
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, habitId);
+        stmt.executeUpdate();
+    }    
 
     public void addHabitSchedule(Connection conn, int habitId, String dayOfWeek) throws SQLException {
         String sql = "INSERT INTO habit_schedule (habit_id, day_of_week) VALUES (?, ?)";
