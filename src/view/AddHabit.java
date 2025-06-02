@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import javax.swing.*;
 import model.Habit;
+import db.DBConnection;
 
 public class AddHabit extends JFrame {
   private JTextField habitNameField;
@@ -61,9 +62,14 @@ public class AddHabit extends JFrame {
   private void saveHabit() {
     Connection conn = null;
     try {
-      String name = habitNameField.getText();
-      String notes = notesField.getText();
-      int userId = 1; // Replace with actual user_id if needed
+      String name = habitNameField.getText().trim();
+      String notes = notesField.getText().trim();
+      int userId = 1; // Replace this with actual user_id if needed
+
+      if (name.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter a habit name.");
+        return;
+      }
 
       Habit habit = new Habit();
       habit.setUserId(userId);
@@ -71,19 +77,25 @@ public class AddHabit extends JFrame {
       habit.setNotes(notes);
 
       HabitDAO habitDAO = new HabitDAO();
-      conn = db.DBConnection.getConnection();
+      conn = DBConnection.getConnection();
+
+      if (conn == null) {
+        JOptionPane.showMessageDialog(this, "Failed to connect to database.");
+        return;
+      }
+
       conn.setAutoCommit(false); // Start transaction
 
       int habitId = habitDAO.addHabit(conn, habit);
 
       if (habitId != -1) {
-        for (int i = 0; i < dayButtons.length; i++) {
-          if (dayButtons[i].isSelected()) {
-            habitDAO.addHabitSchedule(conn, habitId, dayButtons[i].getText());
+        for (JToggleButton dayButton : dayButtons) {
+          if (dayButton.isSelected()) {
+            habitDAO.addHabitSchedule(conn, habitId, dayButton.getText());
           }
         }
 
-        conn.commit(); // All good, commit transaction
+        conn.commit(); // Commit transaction
         JOptionPane.showMessageDialog(this, "Habit saved successfully!");
         dispose();
       } else {

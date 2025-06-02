@@ -25,13 +25,6 @@ public class HabitDAO {
         return -1;
     }    
 
-    // Original method using internal connection (optional)
-    public int addHabit(Habit habit) throws SQLException {
-        try (Connection conn = DBConnection.getConnection()) {
-            return addHabit(conn, habit);
-        }
-    }
-
     public List<Habit> getHabitsByUserId(int userId) throws Exception {
         List<Habit> habits = new ArrayList<>();
         String sql = "SELECT * FROM habits WHERE user_id = ?";
@@ -117,13 +110,6 @@ public class HabitDAO {
             stmt.setInt(1, habitId);
             stmt.setString(2, dayOfWeek);
             stmt.executeUpdate();
-        }
-    }
-
-    // Optional overload
-    public void addHabitSchedule(int habitId, String dayOfWeek) throws SQLException {
-        try (Connection conn = DBConnection.getConnection()) {
-            addHabitSchedule(conn, habitId, dayOfWeek);
         }
     }
 }
