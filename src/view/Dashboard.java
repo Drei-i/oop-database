@@ -106,20 +106,20 @@ public class Dashboard extends JFrame {
         habitsContainerPanel.setBorder(BorderFactory.createTitledBorder(""));
         habitsContainerPanel.add(habitsHeaderPanel, BorderLayout.NORTH);
         habitsContainerPanel.add(habitsScrollPane, BorderLayout.CENTER);
-        habitsContainerPanel.setPreferredSize(new Dimension(650, 600));
+        habitsContainerPanel.setPreferredSize(new Dimension(500, 600));
 
         // ======= RIGHT PANEL =======
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
-        rightPanel.setPreferredSize(new Dimension(600, 0));
-        rightPanel.setMinimumSize(new Dimension(600, 0));
-        rightPanel.setMaximumSize(new Dimension(600, Integer.MAX_VALUE));
+        rightPanel.setPreferredSize(new Dimension(500, 0));
+        rightPanel.setMinimumSize(new Dimension(500, 0));
+        rightPanel.setMaximumSize(new Dimension(500, Integer.MAX_VALUE));
 
         // Top right: Streaks
         streaksPanel = new JPanel();
         streaksPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
         streaksPanel.setBorder(BorderFactory.createTitledBorder("Streaks"));
-        streaksPanel.setPreferredSize(new Dimension(300, 120));
+        streaksPanel.setPreferredSize(new Dimension(500, 120));
         loadStreaks();
 
         rightPanel.add(streaksPanel, BorderLayout.NORTH);
@@ -147,18 +147,22 @@ public class Dashboard extends JFrame {
         try {
             List<Habit> habits = habitDAO.getAllHabits();
             for (Habit habit : habits) {
-                // Row panel using BorderLayout to align components
-                JPanel habitRowPanel = new JPanel(new BorderLayout());
-                habitRowPanel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5)); // small vertical spacing
+                // Habit row panel with BoxLayout X_AXIS
+                JPanel habitRowPanel = new JPanel();
+                habitRowPanel.setLayout(new BoxLayout(habitRowPanel, BoxLayout.X_AXIS));
+                habitRowPanel.setMaximumSize(new Dimension(350, 35));
+                habitRowPanel.setPreferredSize(new Dimension(350, 35));
+                habitRowPanel.setMinimumSize(new Dimension(350, 35));
 
-                // Habit checkbox
                 JCheckBox cb = new JCheckBox(habit.getName());
-                habitRowPanel.add(cb, BorderLayout.WEST);
+                cb.setPreferredSize(new Dimension(250, 25));
+                cb.setMaximumSize(new Dimension(250, 25));
+                cb.setMinimumSize(new Dimension(250, 25));
 
-                // Delete button
-                JButton deleteButton = new JButton("🗑️");
-                deleteButton.setPreferredSize(new Dimension(50, 25));
-
+                JButton deleteButton = new JButton("Delete");
+                deleteButton.setPreferredSize(new Dimension(80, 25));
+                deleteButton.setMaximumSize(new Dimension(80, 25));
+                deleteButton.setMinimumSize(new Dimension(80, 25));
                 deleteButton.addActionListener(e -> {
                     int confirm = JOptionPane.showConfirmDialog(this, "Delete this habit?", "Confirm",
                             JOptionPane.YES_NO_OPTION);
@@ -168,7 +172,9 @@ public class Dashboard extends JFrame {
                     }
                 });
 
-                habitRowPanel.add(deleteButton, BorderLayout.EAST);
+                habitRowPanel.add(cb);
+                habitRowPanel.add(Box.createHorizontalGlue()); // pushes delete button to right
+                habitRowPanel.add(deleteButton);
 
                 habitsPanel.add(habitRowPanel);
             }
