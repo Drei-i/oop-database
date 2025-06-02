@@ -1,21 +1,24 @@
 package view;
 
 import dao.HabitDAO;
+import db.DBConnection;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import javax.swing.*;
 import model.Habit;
-import db.DBConnection;
 
 public class AddHabit extends JFrame {
   private JTextField habitNameField;
   private JTextField notesField;
   private JToggleButton[] dayButtons;
   private JButton saveButton;
+  private Dashboard dashboard;
 
-  public AddHabit() {
+  public AddHabit(Dashboard dashboard) {
+    this.dashboard = dashboard;
+
     setTitle("Add New Habit");
     setSize(700, 550);
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -55,6 +58,8 @@ public class AddHabit extends JFrame {
         saveHabit();
       }
     });
+
+    dashboard.loadHabits();
 
     setVisible(true);
   }
@@ -119,9 +124,12 @@ public class AddHabit extends JFrame {
         closeEx.printStackTrace();
       }
     }
-  }
 
-  public static void main(String[] args) {
-    new AddHabit();
+    // Refresh habits list on Dashboard
+    dashboard.loadHabits();
+
+    // Close add habit window
+    this.dispose();
+
   }
 }

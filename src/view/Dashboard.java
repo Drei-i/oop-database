@@ -78,9 +78,9 @@ public class Dashboard extends JFrame {
 
         // Action for button to open AddHabit window
         addHabitButton.addActionListener(e -> {
-            AddHabit addHabitWindow = new AddHabit();
+            AddHabit addHabitWindow = new AddHabit(this);
             addHabitWindow.setVisible(true);
-        });
+        });   
 
         // Panel for habits list with vertical BoxLayout
         habitsPanel = new JPanel();
