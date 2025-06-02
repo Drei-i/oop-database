@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Dashboard extends JFrame {
+    
 
     private int userId; // current logged-in user id
     private JPanel habitsPanel;
@@ -63,14 +64,14 @@ public class Dashboard extends JFrame {
 
         // "Good day!" text
         JLabel greetingLabel = new JLabel("Good day!");
-        greetingLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+        greetingLabel.setFont(new Font("Georgia", Font.BOLD, 28));
         greetingLabel.setForeground(new Color(50, 50, 50));
         greetingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         topPanel.add(greetingLabel);
 
         // Subtext
         JLabel subtextLabel = new JLabel("Let's make today count");
-        subtextLabel.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        subtextLabel.setFont(new Font("Georgia", Font.PLAIN, 18));
         subtextLabel.setForeground(new Color(80, 80, 80));
         subtextLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         topPanel.add(subtextLabel);
@@ -85,7 +86,7 @@ public class Dashboard extends JFrame {
         habitsHeaderPanel.setBackground(new Color(237, 230, 214));
 
         JLabel habitsTitleLabel = new JLabel("Habits to Track");
-        habitsTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        habitsTitleLabel.setFont(new Font("Georgia", Font.BOLD, 16));
         habitsHeaderPanel.add(habitsTitleLabel, BorderLayout.WEST);
 
         addHabitButton = new JButton("Add Habit");
@@ -213,9 +214,9 @@ public class Dashboard extends JFrame {
         currentPanel.setBackground(new Color(255, 247, 237));
 
         JLabel currentLabel = new JLabel("Current Streak");
-        currentLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        currentLabel.setFont(new Font("Georgia", Font.BOLD, 16));
         JLabel currentValue = new JLabel(String.valueOf(current));
-        currentValue.setFont(new Font("SansSerif", Font.PLAIN, 24));
+        currentValue.setFont(new Font("Georgia", Font.PLAIN, 24));
         currentPanel.add(currentLabel);
         currentPanel.add(currentValue);
 
@@ -224,9 +225,9 @@ public class Dashboard extends JFrame {
         longestPanel.setBackground(new Color(255, 247, 237));
 
         JLabel longestLabel = new JLabel("Longest Streak");
-        longestLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        longestLabel.setFont(new Font("Georgia", Font.BOLD, 16));
         JLabel longestValue = new JLabel(String.valueOf(longest));
-        longestValue.setFont(new Font("SansSerif", Font.PLAIN, 24));
+        longestValue.setFont(new Font("Georgia", Font.PLAIN, 24));
         longestPanel.add(longestLabel);
         longestPanel.add(longestValue);
 

@@ -10,6 +10,12 @@ import javax.swing.*;
 import model.Habit;
 
 public class AddHabit extends JFrame {
+
+  private static final Color BG_COLOR = new Color(237, 230, 214);
+  private static final Color BUTTON_COLOR = new Color(168, 152, 136);
+  private static final Color CARD_COLOR = new Color(255, 247, 237);
+  private static final Color TEXT_COLOR = new Color(50, 50, 50);
+
   private JTextField habitNameField;
   private JTextField notesField;
   private JToggleButton[] dayButtons;
@@ -27,14 +33,18 @@ public class AddHabit extends JFrame {
 
     getContentPane().setBackground(new Color(237, 230, 214));
 
-    // Habit Name
-    add(new JLabel("Habit Name:"));
+    JLabel habitNameLabel = new JLabel("Habit Name:");
+    habitNameLabel.setFont(new Font("Georgia", Font.BOLD, 16));
+    add(habitNameLabel);
     habitNameField = new JTextField();
+    habitNameField.setFont(new Font("Georgia", Font.PLAIN, 14));
     add(habitNameField);
 
-    // Notes
-    add(new JLabel("Notes:"));
+    JLabel notesLabel = new JLabel("Notes:");
+    notesLabel.setFont(new Font("Georgia", Font.BOLD, 16));
+    add(notesLabel);
     notesField = new JTextField();
+    notesField.setFont(new Font("Georgia", Font.PLAIN, 14));
     add(notesField);
 
     // Days of the week toggle buttons
@@ -52,6 +62,7 @@ public class AddHabit extends JFrame {
     // Save button
     saveButton = new JButton("Save Habit");
     saveButton.setBackground(new Color(168, 152, 136));
+    saveButton.setFont(new Font("Georgia", Font.BOLD, 14));
     add(saveButton);
 
     // Save button action
